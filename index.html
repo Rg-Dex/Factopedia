@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Coiny&family=Sono:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- place the google fonts link before the css link (style.css)-->
+
+    <link href="style.css" rel="stylesheet" />
+    <title>Lets Learn!</title>
+  </head>
+  <!--HEAD ME bas Title-->
+  <body>
+    <header class="header">
+      <!--Header section jisme logo,headings etc-->
+      <img src="logo.png" height="68" width="68" alt="Facts on the Go! logo" />
+      <h1>Facts On The Go!</h1>
+      <button>Share a Fact!</button>
+    </header>
+    <!-- h1 = main heading src,height,width in pixels and alt are attributes ALT text means jab logo na dikhe toh waha kya text aye incase of poor net-->
+
+    <form class="fact-form">
+      <input type="text" placeholder="Share a fact with thw World..." />
+      <span>200</span>
+      <!-- SPAN= text in same line <p> se ni hoga-->
+      <input type="text" placeholder="trustworthy source..." />
+      <!-- Placeholders = Grey text text field me kuch enter karne se pehle-->
+      <select>
+        <option value="">Choose category :</option>
+        <option value="technology">Technology</option>
+        <option value="science">Science</option>
+        <option value="finance">Finance</option>
+      </select>
+      <button>Post</button>
+    </form>
+    <!-- Select creates list/category of items option values make up the list-->
+
+    <main>
+      <aside>
+        <ul>
+          <li>
+            <button>All</button>
+          </li>
+          <li><button>Technology</button></li>
+          <li><button>Science</button></li>
+          <li><button>Finance</button></li>
+        </ul>
+      </aside>
+      <!-- Header aur Form ke neeche poora Main
+      Aside hai for Sidebar of Buttons which is an Unordered list-->
+
+      <section>
+        <ul>
+          <li class="fact">
+            <p>
+              React is being developed by Meta (formerly facebook)
+              <a href="https://opensource.fb.com/" target="_blank">Source</a>
+              <span class="tag"> #Technology# </span>
+            </p>
+            <div>
+              <button><strong>👍 25</strong></button>
+              <button><strong>🤯 25</strong></button>
+              <button><strong>⛔️ 21</strong></button>
+            </div>
+          </li>
+          <li class="fact">
+            <p>
+              Millennial dads spend 3 times as much time with their kids than
+              their fathers spent with them. In 1982, 43% of fathers had never
+              changed a diaper. Today, that number is down to 3%
+              <a href="https://opensource.fb.com/" target="_blank">Source</a>
+              <span class="tag"> #Society#</span>
+            </p>
+            <div>
+              <button><strong>👍 11</strong></button>
+              <button><strong>🤯 23</strong></button>
+              <button><strong>⛔️ 9</strong></button>
+            </div>
+          </li>
+          <li class="fact">
+            <p>
+              Lisbon is the capital of Portugal
+              <a href="https://opensource.fb.com/" target="_blank">Source</a>
+              <span class="tag"> #History#</span>
+            </p>
+            <div>
+              <button><strong>👍 15</strong></button>
+              <button><strong>🤯 13</strong></button>
+              <button><strong>⛔️ 5</strong></button>
+            </div>
+          </li>
+        </ul>
+      </section>
+      <!-- Section bas main facts content field ke lie Main sidebar ke lie bhi
+      <a tag for Hyperlinks href = " " URl, target=_blank to open in new page
+      div is for general grouping/classing of elements AND strong bold kardeta hai-->
+    </main>
+    <p>Build by Rg's_Dex</p>
+  </body>
+  <!-- TITLE BAR  ke neeche wala poora Body me-->
+</html>

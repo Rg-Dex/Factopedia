@@ -1,0 +1,52 @@
+h1 {
+  font-size: 40px;
+  text-transform: uppercase;
+  /*text-align: center; */
+  font-family: "Coiny", arial, sans-serif;
+  /* 2 fonts ka chakkar ye hai ki agar google font load na hopae due to network error or something toh default font lagjae aka sans serif*/
+  color: #fafaf9;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* ye 3 line by default hoti hi hain har page pe.*/
+  /*color: aqua; */
+} /* Global Selector*/
+
+body {
+  font-family: "sono", sans-serif; /* font aisa rakh jo baki systems pe bhi recognize hopae*/
+  background-color: #292524;
+  color: #fafaf9;
+  padding: 40px;
+}
+
+.header {
+  margin-bottom: 40px; /*for vertical spacing b/w form and header*/
+}
+.fact-form {
+  background-color: #44403c;
+  padding: 16px 40px;
+}
+.fact {
+  font-size: 20px;
+  line-height: 1.4; /*140%*/
+  color: #fafaf9;
+  background-color: #44403c;
+  margin-bottom: 16px;
+  padding: 16px 24px;
+  /* padding-left: 40px; and then 40 is also applied to the left*/
+  /*border: 4px solid Red; */
+}
+
+.tag {
+  text-transform: uppercase;
+  font-size: 14px;
+  font-family: "Coiny", sans-serif;
+  color: #fafaf9;
+}
+
+ul {
+  /*in the lists by default html gives bullets so by css we always tend to mend it*/
+  list-style: none;
+}
