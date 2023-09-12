@@ -3,6 +3,6 @@
 Factopedia provides an interface for real-time facts access, editing, removal, addition, and rating.
 
 
-<a href="https://todayilearned-jonas.netlify.app/" target="_blank">
+<a click over here href="https://todayilearned-jonas.netlify.app/" target="_blank">
 <img src="logo.png" height="68" width="68" alt="Facts on the Go! logo" /> 
 </a>
