@@ -27,6 +27,7 @@ body {
 .fact-form {
   background-color: #44403c;
   padding: 16px 40px;
+  text-align: center;
 }
 .fact {
   font-size: 20px;
@@ -44,6 +45,10 @@ body {
   font-size: 14px;
   font-family: "Coiny", sans-serif;
   color: #fafaf9;
+  padding-top: 3px;
+  padding-bottom: 2px; /*font family by default kuch padding daalri hai */
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 ul {
