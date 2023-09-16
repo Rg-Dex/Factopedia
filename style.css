@@ -5,6 +5,10 @@ h1 {
   font-family: "Coiny", arial, sans-serif;
   /* 2 fonts ka chakkar ye hai ki agar google font load na hopae due to network error or something toh default font lagjae aka sans serif*/
   color: #fafaf9;
+  line-height: 1;
+  margin-top: -2px;
+  /* ALTERNATE HOSAKTA HAI NEECHE WALI LINE KA margin-left: 20px; 
+  "gap" logo me daaldo jaha flex laga hua hai */
 }
 * {
   margin: 0;
@@ -23,6 +27,17 @@ body {
 
 .header {
   margin-bottom: 40px; /*for vertical spacing b/w form and header*/
+  /*background-color: red; for visualization purpose only*/
+  display: flex; /*ye karte hi side by side hogye */
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  /*background-color: blue;  padding: 10px; to vizualise clearly*/
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 .fact-form {
   background-color: #44403c;
@@ -38,6 +53,10 @@ body {
   padding: 16px 24px;
   /* padding-left: 40px; and then 40 is also applied to the left*/
   /*border: 4px solid Red; */
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  letter-spacing: -1px;
 }
 
 .tag {
@@ -49,6 +68,10 @@ body {
   padding-bottom: 2px; /*font family by default kuch padding daalri hai */
   padding-left: 10px;
   padding-right: 10px;
+}
+
+.vote-buttons {
+  margin-left: auto;
 }
 
 ul {
