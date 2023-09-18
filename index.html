@@ -32,11 +32,12 @@
           <h1>Factopedia!</h1>
         </div>
 
-        <button class="btn btn-large">Share a Fact!</button>
+        <button class="btn btn-large btn-open">Share a Fact!</button>
       </header>
-      <!-- h1 = main heading src,height,width in pixels and alt are attributes ALT text means jab logo na dikhe toh waha kya text aye incase of poor net-->
+      <!-- h1 = main heading src,height,width in pixels and alt are attributes ALT text means jab logo na dikhe toh waha kya text aye incase of poor net
+      btn btn-large css me use hgye btn-open js ke lie for specific selection of this SHARE A POST button for displaying the form or not-->
 
-      <form class="fact-form">
+      <form class="fact-form hidden">
         <input type="text" placeholder="Share a fact with the World..." />
         <span>200</span>
         <!-- SPAN= text in same line <p> se ni hoga-->
@@ -89,7 +90,8 @@
       Aside hai for Sidebar of Buttons which is an Unordered list-->
 
         <section>
-          <ul>
+          <ul class="facts-list">
+            <!-- for js-->
             <li class="fact">
               <p>
                 React is being developed by Meta (formerly facebook)
@@ -157,6 +159,7 @@
       </main>
       <p>Build by Rg's_Dex</p>
     </div>
+    <script src="script.js"></script>
   </body>
   <!-- TITLE BAR  ke neeche wala poora Body me-->
 </html>

@@ -15,6 +15,10 @@ body {
 
 /*Main Layout*/
 
+.hidden {
+  display: none !important; /* only used in utter urgent cases */
+}
+
 .container {
   /* background-color: orangered;  FOR VISUALIZATION */
   max-width: 1500px;
