@@ -58,7 +58,8 @@ factsList.innerHTML = "";
 
 // Load data from Supabase
 loadFacts();
-
+// createFactsList([{ text: "jonas" }]); this can also work to call the function with an array object
+//createFactsList(initialFacts);
 async function loadFacts() {
   const res = await fetch(
     "https://eknshemceaemaiwtjyws.supabase.co/rest/v1/Facts",
