@@ -19,7 +19,7 @@ body {
   display: none !important; /* only used in utter urgent cases */
 }
 
-.container {
+#root {
   /* background-color: orangered;  FOR VISUALIZATION */
   max-width: 1500px;
   margin: 0 auto;
