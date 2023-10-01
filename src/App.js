@@ -65,15 +65,32 @@ function App() {
   // Define State Variable
   const [showForm, setShowForm] = useState(false);
   const [facts, setFacts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [currentCategory, setCurrentCategory] = useState("all");
 
-  useEffect(function () {
-    async function getFacts() {
-      const { data: Facts, error } = await supabase.from("Facts").select("*");
-      // console.log(Facts);
-      setFacts(Facts);
-    }
-    getFacts();
-  }, []);
+  useEffect(
+    function () {
+      async function getFacts() {
+        setIsLoading(true);
+
+        let query = supabase.from("Facts").select("*");
+
+        if (currentCategory !== "all")
+          query = query.eq("category", currentCategory);
+
+        const { data: Facts, error } = await query
+          .order("votesInteresting", { ascending: false })
+          .limit(1000);
+        //console.log(Facts);
+        console.log(error);
+        if (!error) setFacts(Facts);
+        else alert("There was a Problem getting data from the Database!");
+        setIsLoading(false);
+      }
+      getFacts();
+    },
+    [currentCategory]
+  );
   //it will be rendered first time the component loads [] empty array ensures that this function here actually runs only at the begining. aka DEPENDENCY Array
   // only once as soon as the app component first renders
   return (
@@ -87,8 +104,12 @@ function App() {
       {/* yaha pe showForm boolean hai jo T / F deta hai toh condition wahi hgya */}
       {/* <NewFactForm />  ab ye upar hi call hojaega*/}
       <main className="main">
-        <CategoryFilter />
-        <FactList facts={facts} />
+        <CategoryFilter setCurrentCategory={setCurrentCategory} />
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <FactList facts={facts} setFacts={setFacts} />
+        )}
         {/* <Counter /> */}
       </main>
     </>
@@ -96,10 +117,10 @@ function App() {
 }
 
 function Loader() {
-  return <p>Loading...</p>;
+  return <p className="message">Loading...</p>;
 }
 function Header({ showForm, setShowForm }) {
-  const appTitle = "Factopediaaa!";
+  const appTitle = " Factopedia🔖";
   return (
     <header className="header">
       <div className="logo">
@@ -139,12 +160,14 @@ function NewFactForm({ setFacts, setShowForm }) {
   const [text, setText] = useState("");
   const [source, setSource] = useState("http://example.com ");
   const [category, setCategory] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
+
   const textLength = text.length;
 
   // ye wala 200 word limit ko control krne ke lie hai decrease krne ko counter
   //  ab yaha state use ni hua qnki already component re render hora tha setText se.
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     // ye onSubmit me ni ghusaye qnki bade lines of code hain aur ye common good practice hai react me karna.
     // aksar karte hain ye. React will call this function.
     // 1. Prevent Browser Reload
@@ -155,18 +178,27 @@ function NewFactForm({ setFacts, setShowForm }) {
     if (text && isValidHttpUrl(source) && category && textLength <= 200) {
       //  console.log("valid hai bc");
       // 3. Create a new fact object.
-      const newFact = {
-        id: Math.round(Math.random() * 10000),
-        text: text, //text bhi likhsakte hain better practice
-        source,
-        category,
-        votesInteresting: 0,
-        votesMindblowing: 0,
-        votesFalse: 0,
-        createdIn: new Date().getFullYear(),
-      };
+      // const newFact = {
+      //   id: Math.round(Math.random() * 10000),
+      //   text: text, //text bhi likhsakte hain better practice
+      //   source,
+      //   category,
+      //   votesInteresting: 0,
+      //   votesMindblowing: 0,
+      //   votesFalse: 0,
+      //   createdIn: new Date().getFullYear(),
+      // };
+
+      // 3. Upload a fact to Supabase and receive a new fact object.
+      setIsUploading(true);
+      const { data: newFact, error } = await supabase
+        .from("Facts")
+        .insert([{ text, source, category }])
+        .select(); //itne ki hi zaruart hai. ID,createdin automatically supabase generate kardeta hai. Votes wale sare ki default value hmne 0 rakhi bhi hui hai supabase me.
+      console.log(newFact); // hmne isse dekhlia ki array return karra hai to neeche setFacts me [newFact[0]] likhna hoga
+      setIsUploading(false);
       // 4. Add the fact to the UI. add the fact to state so that it renders on the screen
-      setFacts((facts) => [newFact, ...facts]);
+      if (!error) setFacts((facts) => [newFact[0], ...facts]);
       // 5. Reset input fields
       setText("");
       setSource("");
@@ -184,6 +216,7 @@ function NewFactForm({ setFacts, setShowForm }) {
         value={text}
         onChange={(e) => setText(e.target.value)}
         // ye onClick se alag hai thoda yaha e Event Object hai
+        disabled={isUploading}
       />
       <span>{200 - textLength}</span>
       <input
@@ -191,8 +224,13 @@ function NewFactForm({ setFacts, setShowForm }) {
         type="text"
         placeholder="Trustworthy Source..."
         onChange={(e) => setSource(e.target.value)}
+        disabled={isUploading}
       />
-      <select value={category} onChange={(e) => setCategory(e.target.value)}>
+      <select
+        value={category}
+        onChange={(e) => setCategory(e.target.value)}
+        disabled={isUploading}
+      >
         <option value="">Choose category :</option>
         {CATEGORIES.map((cat) => (
           <option key={cat.name} value={cat.name}>
@@ -200,23 +238,31 @@ function NewFactForm({ setFacts, setShowForm }) {
           </option>
         ))}
       </select>
-      <button className="btn btn-large">Post</button>
+      <button className="btn btn-large" disabled={isUploading}>
+        Post
+      </button>
     </form>
   );
 }
 
-function CategoryFilter() {
+function CategoryFilter({ setCurrentCategory }) {
   return (
     <aside>
       <ul>
         <li className="category">
-          <button className="btn btn-all-categories">All</button>
+          <button
+            className="btn btn-all-categories"
+            onClick={() => setCurrentCategory("all")}
+          >
+            All
+          </button>
         </li>
         {CATEGORIES.map((cat) => (
           <li key={cat.name} className="category">
             <button
               className="btn btn-category"
               style={{ backgroundColor: cat.color }}
+              onClick={() => setCurrentCategory(cat.name)}
             >
               {cat.name}
             </button>
@@ -228,25 +274,54 @@ function CategoryFilter() {
   upar hmne App me <categoryFilter> dala heqader ke baad*/
 }
 
-function FactList({ facts }) {
+function FactList({ facts, setFacts }) {
   //destructure kardia props / props.facts ko ({facts}) se
   // Temporary
 
+  if (facts.length === 0) {
+    return (
+      <p className="message">
+        No facts for this category yet! Create the first one 😃
+      </p>
+    );
+  }
   return (
     <section>
       <ul className="facts-list">
         {facts.map((fact) => (
-          <Fact key={fact.id} fact={fact} />
+          <Fact key={fact.id} fact={fact} setFacts={setFacts} />
         ))}
       </ul>
       <p>There are {facts.length} facts in the Database. Add your Own!</p>
     </section>
   );
 }
-function Fact({ fact }) {
+function Fact({ fact, setFacts }) {
+  const [isUpdating, setIsUpdating] = useState(false);
+  const isDisputed =
+    fact.votesInteresting + fact.votesMindblowing < fact.votesFalse;
+  async function handleVote(columnName) {
+    //in the function handleVote() for eg, yaha arguments ka man chaha naam desakte hain
+    setIsUpdating(true);
+    const { data: updatedFact, error } = await supabase
+      .from("Facts")
+      .update({ [columnName]: fact[columnName] + 1 })
+      .eq("id", fact.id) // where id = fact.id.
+      .select();
+    setIsUpdating(false);
+
+    console.log(updatedFact);
+    if (!error)
+      setFacts(
+        (facts) => facts.map((f) => (f.id === fact.id ? updatedFact[0] : f))
+        //yaha pe agar update karne wale fact ki id current fact id se same hai toh updatedFact object return karo ni toh rehne do default
+      );
+    // hmne spread operator ni use kia (...) qnki nya array same length ka banna chaie votes update hone pe bhi 11 facts hain agar to 11 hi rehne chaie.
+  }
   return (
     <li className="fact">
       <p>
+        {isDisputed ? <span className="disputed">[⛔ DISPUTED]</span> : null}
         {fact.text}
         <a className="source" href={fact.source} target="_blank">
           (Source)
@@ -262,9 +337,22 @@ function Fact({ fact }) {
         {fact.category}
       </span>
       <div className="vote-buttons">
-        <button>👍 {fact.votesInteresting}</button>
-        <button>🤯 {fact.votesMindblowing}</button>
-        <button>⛔️ {fact.votesFalse}</button>
+        <button
+          onClick={() => handleVote("votesInteresting")}
+          disabled={isUpdating}
+        >
+          👍 {fact.votesInteresting}
+        </button>
+        {/* yaha pe arrow function ni use kia hmne qnki multiple lines hongi joki upar handleVote me likhenge hm */}
+        <button
+          onClick={() => handleVote("votesMindblowing")}
+          disabled={isUpdating}
+        >
+          🤯 {fact.votesMindblowing}
+        </button>
+        <button onClick={() => handleVote("votesFalse")} disabled={isUpdating}>
+          ⛔️ {fact.votesFalse}
+        </button>
       </div>
     </li>
   );
