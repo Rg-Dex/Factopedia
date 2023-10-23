@@ -275,3 +275,20 @@ ul {
     height: auto;
   }
 }
+@media (max-width: 800px) {
+  header .btn {
+    text-decoration: overline;
+    margin-top: 15px;
+    margin-left: 180px;
+  }
+
+  header {
+    flex-wrap: wrap;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  header .btn {
+    flex-grow: -1;
+  }
+}

@@ -243,3 +243,14 @@ ul {
     width: auto;
   }
 }
+@media (max-width: 800px) {
+  header .btn {
+    text-decoration: overline;
+    margin-top: 15px;
+    margin-left: 180px;
+  }
+
+  header {
+    flex-wrap: wrap;
+  }
+}
